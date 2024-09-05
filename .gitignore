@@ -1,0 +1,6 @@
+/.idea
+/appointment_system/__pycache__
+/comment/__pycache__
+/doctor/__pycache__
+/user/__pycache__
+/wallet/__pycache__
