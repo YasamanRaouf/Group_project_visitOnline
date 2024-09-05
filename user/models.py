@@ -10,6 +10,6 @@ class User(models.Model):
     email = models.EmailField()
 
 
-class Speciality(models.Model):
+class Specialty(models.Model):
     spec_id = models.AutoField(primary_key=True)
     spec_name = models.CharField(max_length=100)
