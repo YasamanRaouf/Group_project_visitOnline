@@ -1,5 +1,8 @@
 # visitOnline
 
+doctor-app-ali: view functionality (view) for displaying a Doctor's details and availablity has been created
+
+doctor-app-ali: doctor-ali-view-detail-availability branch has been created , we started to design the view in which we show details and available timeslots to visit for doctors.
 
 
 ## Getting started
