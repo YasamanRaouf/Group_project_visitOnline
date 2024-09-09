@@ -1,6 +1,9 @@
 # Visit Online - Online Doctor Appointment Booking System
 This is a group project for the course **Django Web Development** at **Quera Bootcamp**. The project aims to create an online doctor appointment booking system using Django.
 
+doctor-app-ali: view functionality (view) for displaying a Doctor's details and availablity has been created
+
+doctor-app-ali: doctor-ali-view-detail-availability branch has been created , we started to design the view in which we show details and available timeslots to visit for doctors.
 
 
 - [Visit Online - Online Doctor Appointment Booking System](#visit-online---online-doctor-appointment-booking-system)

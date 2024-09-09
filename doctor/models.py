@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Doctor(models.Model):
 
     availability_dict = {
@@ -20,3 +19,10 @@ class Doctor(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     is_active = models.BooleanField(default=True)
     availability = models.JSONField(default=availability_dict)
+
+    def __str__(self):
+        return f"Dr. {self.user.full_name} - {self.specialty.spec_name}"
+
+    def get_available_slots(self, day):
+        # Return available slots for a specific day
+        return self.availability.get(day, [])
