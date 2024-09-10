@@ -5,7 +5,7 @@ from .models import Wallet
 class WalletModelTests(TestCase):
 
     def setUp(self):
-        self.wallet1 = Wallet.objects.create(balance=1000)
+        self.wallet1 = Wallet.objects.create(balance=100)
         self.wallet2 = Wallet.objects.create(balance=50)
 
     def test_deposit(self):
