@@ -24,3 +24,23 @@ def create_wallet(request):
         form = WalletForm()
     return render(request, 'wallet/create_wallet.html', {'form': form})
 
+
+def transfer_funds(request, wallet_id):
+    wallet = get_object_or_404(Wallet, wallet_id=wallet_id)
+
+    if request.method == 'POST':
+        form = TransferForm(request.POST)
+        if form.is_valid():
+            recipient_id = form.cleaned_data['recipient_wallet']
+            amount = form.cleaned_data['amount']
+
+            recipient_wallet = get_object_or_404(Wallet, wallet_id=recipient_id)
+
+            if wallet.transfer(recipient_wallet, amount):
+                return redirect('wallet_detail', wallet_id=wallet_id)
+            else:
+                return HttpResponse("Insufficient funds.", status=400)
+    else:
+        form = TransferForm()
+
+    return render(request, 'wallet/transfer_funds.html', {'form': form, 'wallet': wallet})
