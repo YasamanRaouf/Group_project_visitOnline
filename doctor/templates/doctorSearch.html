@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h2>serch</h2>
+
+  <form method="GET" action="{% url 'doctor_search' %}">
+    <input type="text" name="search_item" placeholder=" name or specialty " required>
+    <button type="submit">search</button>
+  </form>
+
+  {% if object_list %}
+    <h3>result : </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>specialty</th>
+          <th>availability</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for doctor in object_list %}
+          <tr>
+            <td>{{ doctor.user__full_name }}</td>
+            <td>{{ doctor.specialty__spec_name }}</td>
+            <td>{{ doctor.availability|default:"-" }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">is empty</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>is empty</p>
+  {% endif %}
+  
+  <a href="{% url 'doctor_list' %}">List of all Doctor</a>
+{% endblock %}
