@@ -1,12 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from datetime import datetime
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Doctor
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django import forms
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from .models import Doctor, Visit
+from .forms import BookingForm
+from django.utils import timezone
+from .models import Doctor
 
 class DoctorListView(LoginRequiredMixin,ListView):
     model = Doctor
@@ -34,14 +37,13 @@ class DoctorSearchView(LoginRequiredMixin,ListView):
             )
 
 
-# Create your views here.
 class BookingForm(forms.Form):
     date = forms.DateField()
     time = forms.TimeField()
 
 
-#@login_required
-def book_appointment(request, doctor_id):
+@login_required
+def book_visit(request, doctor_id):
     doctor = get_object_or_404(Doctor, doctor_id=doctor_id)
 
     if request.method == 'POST':
@@ -49,12 +51,18 @@ def book_appointment(request, doctor_id):
         if form.is_valid():
             date = form.cleaned_data['date']
             time = form.cleaned_data['time']
+            datetime_combined = timezone.make_aware(datetime.combine(date, time))
             available_slots = doctor.get_available_slots(date)
-
             if time in available_slots:
+                visit = Visit.objects.create(
+                    doctor=doctor,
+                    user=request.user,
+                    date_time=datetime_combined
+                )
                 doctor.availability[date].remove(time.strftime('%H:%M'))
                 doctor.save()
-                return HttpResponse("Appointment booked successfully!")
+
+                return HttpResponse("Appointment booked successfully! Please proceed to payment.")
             else:
                 return HttpResponse("Selected time is not available.", status=400)
     else:
@@ -66,3 +74,14 @@ def book_appointment(request, doctor_id):
         'available_slots': doctor.get_available_slots(request.GET.get('date'))
     }
     return render(request, 'doctor/book_appointment.html', context)
+
+
+
+
+def doctor_detail(request, doctor_id):
+    doctor = get_object_or_404(Doctor, doctor_id=doctor_id)
+    context = {
+        'doctor': doctor,
+        'available_slots': doctor.get_available_slots(datetime.now().strftime('%A').lower())
+    }
+    return render(request, 'doctor/doctor_detail.html', context)

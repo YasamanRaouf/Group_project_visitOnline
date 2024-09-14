@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 def default_availability():
@@ -26,3 +27,13 @@ class Doctor(models.Model):
 
     def get_available_slots(self, day):
         return self.availability.get(day, [])
+
+
+class Visit(models.Model):
+    visit_id = models.AutoField(primary_key=True)
+    doctor = models.ForeignKey('Doctor', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date_time = models.DateTimeField()
+
+    def __str__(self):
+        return f"Visit with Dr. {self.doctor.user.full_name} on {self.date_time}"
