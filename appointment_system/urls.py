@@ -20,6 +20,5 @@ from wallet import views as wallet_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('wallet/', include('wallet.urls')),
-    path('', wallet_views.wallet_list, name='home'),
+    path('wallet/', include(('wallet.urls', 'wallet'), namespace='wallet')),
 ]
