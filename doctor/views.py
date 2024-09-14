@@ -13,7 +13,7 @@ from .models import Doctor
 
 class DoctorListView(LoginRequiredMixin,ListView):
     model = Doctor
-    template_name = 'doctor/doctor_Form.html'
+    template_name = 'doctor/forms/doctorList.html'
     
     def get_queryset(self):
         return Doctor.objects.filter(
@@ -24,7 +24,7 @@ class DoctorListView(LoginRequiredMixin,ListView):
     
 class DoctorSearchView(LoginRequiredMixin,ListView):
     model = Doctor
-    template_name = 'doctor/doctor_Search.html'
+    template_name = 'doctor/forms/doctorSearch.html'
     
     def get_queryset(self):
         search_item = self.request.GET.get('search_item', '')
