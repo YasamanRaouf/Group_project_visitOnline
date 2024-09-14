@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user.urls', namespace='user')),
     path('wallet/', include(('wallet.urls', 'wallet'), namespace='wallet')),
-    path('doctor/', include('doctor.urls', namespace="doctor")),
+    path('doctor/', include(('doctor.urls', 'doctor'), namespace='doctor')),
 ]
