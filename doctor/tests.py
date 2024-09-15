@@ -15,7 +15,7 @@ class DoctorTest(TestCase):
 
     def test_doctor_list_view(self):
         self.client.login(username='testuser', password='testpassword')
-        response = self.client.get(reverse('Doctor_list'))  # نام URL را با نام صحیح جایگزین کنید
+        response = self.client.get(reverse('Doctor_list'))  
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'doctor/templates/doctorList.html')
