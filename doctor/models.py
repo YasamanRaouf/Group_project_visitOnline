@@ -18,7 +18,7 @@ class Doctor(models.Model):
     specialty = models.ForeignKey('user.Specialty', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     is_active = models.BooleanField(default=True)
-    availability = models.JSONField(default=availability_dict)
+    availability = models.JSONField(default=dict(availability_dict))
 
     def __str__(self):
         return f"Dr. {self.user.full_name} - {self.specialty.spec_name}"
