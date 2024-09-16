@@ -14,6 +14,10 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'full_name', 'phone_number', 'wallet_id', 'is_admin', 'email', 'password1', 'password2')
 
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100, required=True, help_text='Username')
+    password = forms.CharField(max_length=100, required=True, help_text='Password', widget=forms.PasswordInput())
+
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User

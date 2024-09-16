@@ -85,3 +85,6 @@ local_settings.py
 
 ### pycharm ###
 .idea/
+
+### VisualStudioCode ###
+.vscode/
