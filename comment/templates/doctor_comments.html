@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments for {{ doctor.name }}</title>
+</head>
+<body>
+    <h1>Comments for {{ doctor.name }}</h1>
+    
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <strong>{{ comment.user.username }}</strong> (Rating: {{ comment.rating }})
+                    <p>{{ comment.text }}</p>
+                    <small>Posted on {{ comment.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+</body>
+</html>
