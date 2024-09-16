@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, LoginForm
 
 def signup_view(request):
     if request.method == 'POST':
@@ -25,3 +25,23 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'ورود با موفقیت انجام شد!')
+                # TODO: Redirect to user profile page
+                return redirect('home')
+            else:
+                messages.error(request, 'نام کاربری یا رمز عبور اشتباه است.')
+        else:
+            messages.error(request, 'لطفاً فرم را به درستی پر کنید.')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
