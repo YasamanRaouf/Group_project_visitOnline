@@ -4,10 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Comment(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE)
     doctor = models.ForeignKey('doctor.Doctor', on_delete=models.CASCADE)
-    visit = models.ForeignKey('doctor.Doctor', on_delete=models.CASCADE)
-    '''
-    visit tu kodum appe? doctor.Doctor edit she.
-    '''
+    visit = models.ForeignKey('doctor.Visit', on_delete=models.CASCADE)
     text = models.TextField()
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])  # Rating between 1 and 5
     created_at = models.DateTimeField(auto_now_add=True)
