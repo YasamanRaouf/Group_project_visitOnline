@@ -1,0 +1,18 @@
+<h2>Book an Appointment with Dr. {{ doctor.user.full_name }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Book Appointment</button>
+</form>
+
+{% if available_slots %}
+    <p>Available slots:</p>
+    <ul>
+        {% for slot in available_slots %}
+        <li>{{ slot }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No available slots for the selected date.</p>
+{% endif %}

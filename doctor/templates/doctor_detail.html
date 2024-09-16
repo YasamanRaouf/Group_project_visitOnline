@@ -1,0 +1,27 @@
+<!-- doctor/doctor_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Detail</title>
+</head>
+<body>
+    <h1>Dr. {{ doctor.user.full_name }}</h1>
+    <p><strong>Specialty:</strong> {{ doctor.specialty.spec_name }}</p>
+    <p><strong>Price:</strong> {{ doctor.price }} USD</p>
+
+    <h2>Available Slots</h2>
+    {% if available_slots %}
+        <ul>
+            {% for slot in available_slots %}
+                <li>{{ slot }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No available slots for today.</p>
+    {% endif %}
+
+    <a href="{% url 'book_visit' doctor_id=doctor.doctor_id %}">Book an Appointment</a>
+</body>
+</html>
