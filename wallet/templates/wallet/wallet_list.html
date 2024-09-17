@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Wallet List</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Wallet List{% endblock %}
+{% block content %}
     <h1>Wallet List</h1>
     <ul>
         {% for wallet in wallets %}
-            <li><a href="{% url 'wallet_detail' wallet.wallet_id %}">Wallet ID: {{ wallet.wallet_id }} - Balance: {{ wallet.balance }}</a></li>
+            <li>
+                <a href="{% url 'wallet:wallet_detail' wallet.wallet_id %}">Wallet ID: {{ wallet.wallet_id }}</a>
+                <p>Balance: {{ wallet.balance }}</p>
+            </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'create_wallet' %}">Create New Wallet</a>
-</body>
-</html>
+{% endblock %}

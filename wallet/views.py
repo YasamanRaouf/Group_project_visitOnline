@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 from .models import Wallet
 from .forms import WalletForm, TransferForm
 
@@ -34,10 +35,11 @@ def transfer_funds(request, wallet_id):
             recipient_id = form.cleaned_data['recipient_wallet']
             amount = form.cleaned_data['amount']
 
-            recipient_wallet = get_object_or_404(Wallet, wallet_id=recipient_id)
+            recipient_wallet = get_object_or_404(
+                Wallet, wallet_id=recipient_id)
 
             if wallet.transfer(recipient_wallet, amount):
-                return redirect('wallet_detail', wallet_id=wallet_id)
+                return redirect('wallet:wallet_detail', wallet_id=wallet_id)
             else:
                 return HttpResponse("Insufficient funds.", status=400)
     else:
