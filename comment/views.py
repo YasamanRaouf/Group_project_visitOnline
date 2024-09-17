@@ -2,10 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CommentForm
 from doctor.models import Doctor, Visit
 
-# Create your views here.
-from django.shortcuts import render, get_object_or_404
-from .models import Comment, Doctor
-
 def doctor_comments(request, doctor_id):
     # Retrieve the doctor based on URL parameters
     doctor = get_object_or_404(Doctor, id=doctor_id)
