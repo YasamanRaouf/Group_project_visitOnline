@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CommentForm
-from .models import Doctor, Visit
+from doctor.models import Doctor, Visit
 
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
