@@ -2,16 +2,25 @@ from django.db import models
 from django.conf import settings
 
 
-def default_availability():
+def availability(
+        saturday=None,
+        sunday=None,
+        monday=None,
+        tuesday=None,
+        wednesday=None,
+        thursday=None,
+        friday=None,
+        interval=20,
+):
     return {
-        'saturday': [],
-        'sunday': [],
-        'monday': [],
-        'tuesday': [],
-        'wednesday': [],
-        'thursday': [],
-        'friday': [],
-        'interval': 20,
+        'saturday': [saturday] if saturday else [],
+        'sunday': [sunday] if sunday else [],
+        'monday': [monday] if monday else [],
+        'tuesday': [tuesday] if tuesday else [],
+        'wednesday': [wednesday] if wednesday else [],
+        'thursday': [thursday] if thursday else [],
+        'friday': [friday] if friday else [],
+        'interval': interval,
     }
 
 
@@ -21,7 +30,7 @@ class Doctor(models.Model):
     specialty = models.ForeignKey('user.Specialty', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     is_active = models.BooleanField(default=True)
-    availability = models.JSONField(default=default_availability())
+    availability = models.JSONField(default=availability())
 
     def __str__(self):
         return f"Dr. {self.user.full_name} - {self.specialty.spec_name}"

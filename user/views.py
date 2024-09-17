@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import SignUpForm, LoginForm, UpdateUserForm, UpdateProfileForm
+from .forms import SignUpForm, LoginForm, UpdateUserForm, UpdateProfileForm, UpdateDoctorForm
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -27,6 +28,7 @@ def signup_view(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -47,11 +49,13 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
+
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
+        profile_form = UpdateProfileForm(
+            request.POST, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -61,3 +65,18 @@ def edit_profile(request):
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
     return render(request, 'edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+@login_required
+def edit_doctor(request):
+    if request.method == 'POST':
+        doctor_form = UpdateDoctorForm(
+            request.POST, instance=request.user.doctor)
+        if doctor_form.is_valid():
+            doctor_form.save()
+            messages.success(
+                request, 'پروفایل پزشکی شما با موفقیت به‌روزرسانی شد.')
+            return redirect('profile')
+    else:
+        doctor_form = UpdateDoctorForm(instance=request.user.doctor)
+    return render(request, 'edit_doctor.html', {'doctor_form': doctor_form})
