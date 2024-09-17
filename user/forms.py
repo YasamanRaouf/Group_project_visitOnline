@@ -41,7 +41,7 @@ class UpdateProfileForm(forms.ModelForm):
         fields = ['full_name', 'phone_number', 'wallet_id', 'is_admin']
 
 
-class UpdateDoctorFrom(forms.ModelForm):
+class UpdateDoctorForm(forms.ModelForm):
     saturday = forms.CharField(max_length=100, required=False)
     sunday = forms.CharField(max_length=100, required=False)
     monday = forms.CharField(max_length=100, required=False)
@@ -56,7 +56,7 @@ class UpdateDoctorFrom(forms.ModelForm):
         fields = ['specialty', 'price']
 
     def save(self, commit=True):
-        doctor = super(UpdateDoctorFrom, self).save(commit=False)
+        doctor = super(UpdateDoctorForm, self).save(commit=False)
         doctor.availability = Doctor.default_availability(
             saturday=self.cleaned_data['saturday'],
             sunday=self.cleaned_data['sunday'],
