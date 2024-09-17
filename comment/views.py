@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CommentForm
 from doctor.models import Doctor, Visit
+from .models import Comment
 
 def doctor_comments(request, doctor_id):
     # Retrieve the doctor based on URL parameters
