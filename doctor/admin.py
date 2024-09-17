@@ -28,4 +28,5 @@ class DoctorAdmin(admin.ModelAdmin):
         'user__full_name',
     ]
 
+
 # Register your models here.
