@@ -1,32 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of All Doctors</title>
+</head>
+<body>
 {% extends "base_generic.html" %}
-
+{% block title %}List of All Doctors{% endblock %}
 {% block content %}
-  <h2>list of all doctors</h2>
+    <h2>List of All Doctors</h2>
 
-  {% if object_list %}
-    <table>
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>specialty</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for doctor in object_list %}
-          <tr>
-            <td>{{ doctor.user__full_name }}</td>
-            <td>{{ doctor.specialty__spec_name }}</td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="2">is empty</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>is empty</p>
-  {% endif %}
+    {% if object_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Specialty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in object_list %}
+                    <tr>
+                        <td>{{ doctor.user__full_name }}</td>
+                        <td>{{ doctor.specialty__spec_name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">Is empty</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No doctors available.</p>
+    {% endif %}
 
-  <a href="{% url 'doctor_search' %}">search</a>
+    <a href="{% url 'doctor_search' %}">Search for Doctors</a>
 {% endblock %}
+</body>
+</html>
