@@ -21,7 +21,7 @@ class DoctorTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'doctor/templates/doctorList.html')
-        self.assertContains(response, self.user.full_name)
+        self.assertContains(response, self.user.username)
 
     def test_doctor_search_view(self):
         self.client.login(username='testuser', password='testpassword')
