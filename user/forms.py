@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
 from doctor.models import Doctor
+from django import forms
+from .models import User
 
 
 class SignUpForm(UserCreationForm):
@@ -32,13 +33,8 @@ class LoginForm(forms.Form):
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email','full_name', 'phone_number', 'wallet_id', 'is_admin']
 
-
-class UpdateProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['full_name', 'phone_number', 'wallet_id', 'is_admin']
 
 
 class UpdateDoctorForm(forms.ModelForm):
