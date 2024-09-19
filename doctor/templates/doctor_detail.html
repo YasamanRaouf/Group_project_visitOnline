@@ -22,6 +22,6 @@
         <p>No available slots for today.</p>
     {% endif %}
 
-    <a href="{% url 'book_visit' doctor_id=doctor.doctor_id %}">Book an Appointment</a>
+    <a href="{% url 'doctor:book_visit' doctor_id=doctor.doctor_id %}">Book an Appointment</a>
 </body>
 </html>
