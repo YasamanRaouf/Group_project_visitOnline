@@ -19,13 +19,13 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'full_name', 'phone_number', 'wallet_id',
-                  'is_admin', 'email', 'password1', 'password2')
+        fields = ('email', 'full_name', 'phone_number', 'wallet_id',
+                  'is_admin', 'password1', 'password2')
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
-        max_length=100, required=True, help_text='Username')
+    email = forms.CharField(
+        max_length=100, required=True, help_text='Email')
     password = forms.CharField(
         max_length=100, required=True, help_text='Password', widget=forms.PasswordInput())
 
@@ -33,8 +33,8 @@ class LoginForm(forms.Form):
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email','full_name', 'phone_number', 'wallet_id', 'is_admin']
-
+        fields = ['email', 'full_name',
+                  'phone_number', 'wallet_id', 'is_admin']
 
 
 class UpdateDoctorForm(forms.ModelForm):
