@@ -3,24 +3,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from doctor.models import Doctor
 from django import forms
-from .models import User
+from .models import User, Wallet
 
 
-class SignUpForm(UserCreationForm):
-    full_name = forms.CharField(
-        max_length=100, required=True, help_text='Full Name')
-    phone_number = forms.CharField(
-        max_length=15, required=True, help_text='Phone Number')
-    wallet_id = forms.CharField(
-        max_length=50, required=True, help_text='Wallet ID')
-    is_admin = forms.BooleanField(required=False, help_text='Is Admin')
-    email = forms.EmailField(
-        max_length=200, required=True, help_text='Email Address')
-
+class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'full_name', 'phone_number', 'wallet_id',
-                  'is_admin', 'password1', 'password2')
+                  'is_admin', 'password')
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
 
 
 class LoginForm(forms.Form):

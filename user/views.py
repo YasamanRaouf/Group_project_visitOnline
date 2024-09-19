@@ -4,26 +4,21 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import SignUpForm, LoginForm, UpdateUserForm, UpdateDoctorForm
 
+from .models import User, Wallet
 
 
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
-            if user is not None:
-                auth_login(request, user)
-                messages.success(request, 'ثبت‌نام با موفقیت انجام شد!')
-                return redirect('home')
-            else:
-                messages.error(request, 'خطا در ورود. لطفاً دوباره تلاش کنید.')
+            form.save()
+            return redirect('user:login')
         else:
             messages.error(request, 'لطفاً فرم را به درستی پر کنید.')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -31,10 +26,11 @@ def login_view(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
+            user = User.objects.get(email=email)
             if user is not None:
-                auth_login(request, user)
-                messages.success(request, 'ورود با موفقیت انجام شد!')
+                if user.password == password:
+                    messages.success(request, 'ورود با موفقیت انجام شد!')
+                    print("Hooraay")
                 return redirect('home')
             else:
                 messages.error(request, 'نام کاربری یا رمز عبور اشتباه است.')
@@ -43,6 +39,7 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
 
 @login_required
 def edit_profile(request):
@@ -56,18 +53,22 @@ def edit_profile(request):
         user_form = UpdateUserForm(instance=request.user)
     return render(request, 'edit_profile.html', {'user_form': user_form})
 
+
 @login_required
 def edit_doctor(request):
     if hasattr(request.user, 'doctor'):
         if request.method == 'POST':
-            doctor_form = UpdateDoctorForm(request.POST, instance=request.user.doctor)
+            doctor_form = UpdateDoctorForm(
+                request.POST, instance=request.user.doctor)
             if doctor_form.is_valid():
                 doctor_form.save()
-                messages.success(request, 'پروفایل پزشکی شما با موفقیت به‌روزرسانی شد.')
+                messages.success(
+                    request, 'پروفایل پزشکی شما با موفقیت به‌روزرسانی شد.')
                 return redirect('profile')
         else:
             doctor_form = UpdateDoctorForm(instance=request.user.doctor)
         return render(request, 'edit_doctor.html', {'doctor_form': doctor_form})
     else:
-        messages.error(request, 'شما پزشک نیستید یا پروفایل پزشک شما وجود ندارد.')
+        messages.error(
+            request, 'شما پزشک نیستید یا پروفایل پزشک شما وجود ندارد.')
         return redirect('home')

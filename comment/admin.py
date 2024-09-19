@@ -12,6 +12,6 @@ approve_comments.short_description = "Approve selected comments"
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'doctor', 'visit', 'rating', 'created_at', 'is_approved')
-    search_fields = ('user__username', 'doctor__name', 'text')
+    search_fields = ('user__email', 'doctor__name', 'text')
     list_filter = ('rating', 'created_at', 'is_approved')
     actions = [approve_comments]

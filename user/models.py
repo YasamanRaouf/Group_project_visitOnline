@@ -9,6 +9,7 @@ class User(models.Model):
     wallet_id = models.ForeignKey(Wallet, on_delete=models.CASCADE)
     is_admin = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
+    password = models.CharField(max_length=100)
 
     def __str__(self):
         return self.full_name
