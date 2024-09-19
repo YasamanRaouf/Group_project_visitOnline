@@ -18,7 +18,8 @@ class DoctorListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         return Doctor.objects.filter(
             is_active = True).values(
-                'user__full_name', 'specialty__spec_name'
+                'user__full_name',
+                'specialty__spec_name',
             )
     
     
@@ -33,7 +34,9 @@ class DoctorSearchView(LoginRequiredMixin,ListView):
                 Q(specialty__icontains=search_item) | 
                 Q(user__full_name__icontains=search_item )
             ).filter(is_active=True).values(
-                'user__full_name', 'specialty__spec_name' ,'availability'
+                'user__full_name',
+                'specialty__spec_name',
+                'availability',
             )
 
 
