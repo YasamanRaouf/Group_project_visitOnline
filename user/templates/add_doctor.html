@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Add doctor{% endblock %}
+{% block content %}
+  <h2>Add doctor</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add doctor</button>
+  </form>
+  {% if messages %}
+    <ul>
+      {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}
