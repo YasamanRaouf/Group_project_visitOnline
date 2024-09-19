@@ -43,6 +43,7 @@ class DateInput(forms.DateInput):
 
 class TimeInput(forms.TimeInput):
     input_type = "time"
+    format = '%H:%M'
 
 
 class BookingForm(forms.Form):
@@ -72,9 +73,10 @@ def book_visit(request, doctor_id):
                     visit = Visit.objects.create(
                         doctor=doctor,
                         user=request.user,
-                        visit_date=date,
-                        visit_time=time
+                        date_time=datetime_combined
                     )
+                    visit.save()
+                    print(visit)
 
                 return HttpResponse("Appointment booked successfully! Please proceed to payment.")
             else:

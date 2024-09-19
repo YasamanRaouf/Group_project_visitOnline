@@ -6,7 +6,7 @@ from .models import Comment
 
 def doctor_comments(request, doctor_id):
     # Retrieve the doctor based on URL parameters
-    doctor = get_object_or_404(Doctor, id=doctor_id)
+    doctor = get_object_or_404(Doctor, doctor_id=doctor_id)
 
     # Retrieve all approved comments for the specified doctor
     comments = Comment.objects.filter(
@@ -17,16 +17,14 @@ def doctor_comments(request, doctor_id):
 
 def create_comment(request, doctor_id, visit_id):
     # Retrieve doctor and visit based on URL parameters
-    doctor = get_object_or_404(Doctor, id=doctor_id)
-    visit = get_object_or_404(Visit, id=visit_id)
+    doctor = get_object_or_404(Doctor, doctor_id=doctor_id)
+    visit = get_object_or_404(Visit, visit_id=visit_id)
 
     if request.method == 'POST':
         form = CommentForm(request.POST, doctor=doctor,
                            visit=visit, user=request.user)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user  # Set the logged-in user
-            comment.save()
+            form.save()
             return redirect('doctor_comments', doctor_id=doctor_id)
     else:
         form = CommentForm(doctor=doctor, visit=visit, user=request.user)
