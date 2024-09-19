@@ -2,12 +2,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Visit
 
 
-@receiver(post_save, sender=Visit)
+@receiver(post_save, sender='doctor.Visit')
 def send_confirmation_email(sender, instance, created, **kwargs):
     if created:
+        from .models import Visit
         user = instance.user
         doctor = instance.doctor
         subject = 'Appointment Confirmation'
