@@ -20,7 +20,7 @@ def create_wallet(request):
         form = WalletForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('wallet_list')
+            return redirect('wallet:wallet_list')
     else:
         form = WalletForm()
     return render(request, 'wallet/create_wallet.html', {'form': form})

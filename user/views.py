@@ -31,7 +31,7 @@ def login_view(request):
                 if user.password == password:
                     messages.success(request, 'ورود با موفقیت انجام شد!')
                     print("Hooraay")
-                return redirect('home')
+                return redirect('user:add_doctor')
             else:
                 messages.error(request, 'نام کاربری یا رمز عبور اشتباه است.')
         else:
