@@ -7,7 +7,7 @@ class DoctorConfig(AppConfig):
     name = 'doctor'
 
     def ready(self):
-        from . import emails
+        from doctor.utils import send_confirmation_email
 
 
 
