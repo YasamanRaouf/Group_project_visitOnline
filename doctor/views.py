@@ -8,7 +8,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Doctor, Visit
 from django.utils import timezone
-from .models import Doctor
+from django.shortcuts import render
+
 
 class DoctorListView(LoginRequiredMixin,ListView):
     model = Doctor
@@ -84,3 +85,14 @@ def doctor_detail(request, doctor_id):
         'available_slots': doctor.get_available_slots(datetime.now().strftime('%A').lower())
     }
     return render(request, 'doctor/doctor_detail.html', context)
+
+
+@login_required
+def visited_doctors_list(request):
+    user = request.user
+    visits = Visit.objects.filter(user=user).select_related('doctor')
+
+    context = {
+        'visits': visits,
+    }
+    return render(request, 'doctor/visited_doctors_list.html', context)
