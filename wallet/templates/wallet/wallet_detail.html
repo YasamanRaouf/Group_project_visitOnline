@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Wallet Detail</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Wallet Detail{% endblock %}
+{% block content %}
     <h1>Wallet Detail</h1>
     <p>Wallet ID: {{ wallet.wallet_id }}</p>
     <p>Balance: {{ wallet.balance }}</p>
-    <a href="{% url 'transfer_funds' wallet.wallet_id %}">Transfer Funds</a>
-</body>
-</html>
+    <a href="{% url 'wallet:transfer_funds' wallet.wallet_id %}">Transfer Funds</a>
+{% endblock %}

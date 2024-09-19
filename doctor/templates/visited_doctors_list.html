@@ -1,0 +1,12 @@
+<h2>Doctors who visited you</h2>
+
+<ul>
+    {% for visit in visits %}
+    <li>
+        Dr. {{ visit.doctor.user.full_name }} - Specialty: {{ visit.doctor.specialty.spec_name }}
+        <a href="{% url 'comment:create' visit_id=visit.visitid doctor_id=visit.doctor.id %}">Rate this doctor</a>
+    </li>
+    {% empty %}
+    <li>No doctors have visited you yet.</li>
+    {% endfor %}
+</ul>

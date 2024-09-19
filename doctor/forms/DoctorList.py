@@ -1,5 +1,5 @@
 from django import forms
-from doctor.models import Doctor
+from visitonline.doctor.models import Doctor
 
 class DoctorListForm(forms.ModelForm):
     class Meta:
