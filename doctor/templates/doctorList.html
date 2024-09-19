@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}List of All Doctors{% endblock %}
+{% block content %}
+    <h2>List of All Doctors</h2>
+    {% if object_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Specialty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in object_list %}
+                    <tr>
+                        <td>{{ doctor.user__full_name }}</td>
+                        <td>{{ doctor.specialty__spec_name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">Is empty</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No doctors available.</p>
+    {% endif %}
+    <a href="{% url 'doctor:doctor_search' %}">Search for Doctors</a>
+{% endblock %}

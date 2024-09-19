@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Comments for {{ doctor.name }}{% endblock %}
+
+{% block content %}
+    <h2>Comments for {{ doctor.name }}</h2>
+
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <strong>{{ comment.user.username }}</strong> (Rating: {{ comment.rating }})
+                    <p>{{ comment.text }}</p>
+                    <small>Posted on {{ comment.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Transfer Funds{% endblock %}
+{% block content %}
+    <h1>Transfer Funds from Wallet ID: {{ wallet.wallet_id }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Transfer</button>
+    </form>
+{% endblock %}
