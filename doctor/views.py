@@ -41,9 +41,13 @@ class DateInput(forms.DateInput):
     input_type = "date"
 
 
+class TimeInput(forms.TimeInput):
+    input_type = "time"
+
+
 class BookingForm(forms.Form):
     date = forms.DateField(widget=DateInput())
-    time = forms.TimeField()
+    time = forms.TimeField(widget=TimeInput())
 
 
 def book_visit(request, doctor_id):
@@ -54,17 +58,23 @@ def book_visit(request, doctor_id):
         if form.is_valid():
             date = form.cleaned_data['date']
             time = form.cleaned_data['time']
+            time = datetime.strptime(time.strftime('%H:%M'), '%H:%M').time()
             datetime_combined = timezone.make_aware(
                 datetime.combine(date, time))
-            available_slots = doctor.get_available_slots(date)
-            if time in available_slots:
-                visit = Visit.objects.create(
-                    doctor=doctor,
-                    user=request.user,
-                    date_time=datetime_combined
-                )
-                doctor.availability[date].remove(time.strftime('%H:%M'))
-                doctor.save()
+            available_slots = doctor.get_available_slots(
+                date.strftime('%A').lower())
+            for slot in available_slots:
+                interval = slot.split('-')
+                start_time = datetime.strptime(interval[0], '%H:%M').time()
+                end_time = datetime.strptime(interval[1], '%H:%M').time()
+                print(start_time, time, end_time)
+                if start_time <= time <= end_time:
+                    visit = Visit.objects.create(
+                        doctor=doctor,
+                        user=request.user,
+                        visit_date=date,
+                        visit_time=time
+                    )
 
                 return HttpResponse("Appointment booked successfully! Please proceed to payment.")
             else:

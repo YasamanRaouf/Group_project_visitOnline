@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from django.db import models
 from django.conf import settings
 from user.models import User
@@ -46,6 +47,25 @@ class Doctor(models.Model):
 
     def get_available_slots(self, day):
         return self.availability.get(day, [])
+
+    def book_visit(self, date, time, user):
+        datetime_combined = timezone.make_aware(
+            datetime.combine(date, time))
+        available_slots = self.get_available_slots(
+            date.strftime('%A').lower())
+        for _ in available_slots:
+            interval = time.separator('-')
+            start_time = datetime.strptime(interval[0], '%H:%M').time()
+            end_time = datetime.strptime(interval[1], '%H:%M').time()
+            if start_time <= time <= end_time:
+                visit = Visit.objects.create(
+                    doctor=self,
+                    user=user,
+                    date_time=datetime_combined
+                )
+                self.availability[date].remove(time.strftime('%H:%M'))
+                self.save()
+                return visit
 
 
 class Visit(models.Model):
