@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import SignUpForm, LoginForm, UpdateUserForm, UpdateDoctorForm
+from .forms import SignUpForm, LoginForm, UpdateUserForm, UpdateDoctorForm, AddDoctorForm
 
 from .models import User, Wallet
 
@@ -54,21 +54,26 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', {'user_form': user_form})
 
 
-@login_required
-def edit_doctor(request):
-    if hasattr(request.user, 'doctor'):
-        if request.method == 'POST':
-            doctor_form = UpdateDoctorForm(
-                request.POST, instance=request.user.doctor)
-            if doctor_form.is_valid():
-                doctor_form.save()
-                messages.success(
-                    request, 'پروفایل پزشکی شما با موفقیت به‌روزرسانی شد.')
-                return redirect('profile')
-        else:
-            doctor_form = UpdateDoctorForm(instance=request.user.doctor)
-        return render(request, 'edit_doctor.html', {'doctor_form': doctor_form})
+def edit_doctor(request, doctor_id):
+    doctor = User.objects.get(id=doctor_id)
+    if request.method == 'POST':
+        doctor_form = UpdateDoctorForm(request.POST, instance=doctor)
+        if doctor_form.is_valid():
+            doctor_form.save()
+            messages.success(request, 'پروفایل پزشک با موفقیت به‌روزرسانی شد.')
+            return redirect('profile')
     else:
-        messages.error(
-            request, 'شما پزشک نیستید یا پروفایل پزشک شما وجود ندارد.')
-        return redirect('home')
+        doctor_form = UpdateDoctorForm(instance=doctor)
+
+
+def add_doctor(request):
+    if request.method == 'POST':
+        form = AddDoctorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user:login')
+        else:
+            messages.error(request, 'لطفاً فرم را به درستی پر کنید.')
+    else:
+        form = AddDoctorForm()
+    return render(request, 'add_doctor.html', {'form': form})
