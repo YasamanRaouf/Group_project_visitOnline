@@ -1,6 +1,14 @@
 from django.db import models
 from django.conf import settings
-from user.models import Specialty, User
+from user.models import User
+
+
+class Specialty(models.Model):
+    spec_id = models.AutoField(primary_key=True)
+    spec_name = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.spec_name
 
 
 class Doctor(models.Model):
