@@ -30,7 +30,6 @@ def login_view(request):
             if user is not None:
                 if user.password == password:
                     messages.success(request, 'ورود با موفقیت انجام شد!')
-                    print("Hooraay")
                 return redirect('user:add_doctor')
             else:
                 messages.error(request, 'نام کاربری یا رمز عبور اشتباه است.')
@@ -41,7 +40,6 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 
-@login_required
 def edit_profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
